@@ -22,21 +22,23 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-
-                    <form action="?pg=usuarios-novo" method="POST">
-                        <div class="form-group">
-                            <label for="usuario">Nome de usuário</label>
-                            <input type="text" name="nome" id="usuario" autofocus class="form-control" placeholder="Digite seu nome de Usuário">
-                        </div>
-                        <div class="form-group">
-                            <label for="senha">Senha</label>
-                            <input type="password" name="senha" id="senha" class="form-control" placeholder="Digite seu nome de Usuário">
-                        </div>
-                        <div class="form-group text-right">
-                            <a href="?pg=usuarios-listar" class="btn btn-warning btn-lg">Voltar</a>
-                            <input type="submit" class="btn btn-success btn-lg" value="Atualizar">
-                        </div>
-                    </form>
+                    <?php foreach ($DadosUsuario as $dados) { ?>
+                        <form action="?pg=usuario-editar" method="POST">
+                            <div class="form-group">
+                                <label for="usuario">Nome de usuário</label>
+                                <input type="text" name="nome" value="<?php echo $dados['nome'] ?>" id="usuario" disabled class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="senha">Senha</label>
+                                <input type="password" autofocus name="senha" id="senha" class="form-control" placeholder="Digite uma nova senha">
+                            </div>
+                            <input type="hidden" name="id_usuario" value="<?php echo $dados['id_usuario'] ?>">
+                            <div class="form-group text-right">
+                                <a href="?pg=usuarios-listar" class="btn btn-warning btn-lg">Voltar</a>
+                                <input type="submit" class="btn btn-success btn-lg" value="Atualizar">
+                            </div>
+                        </form>
+                    <?php } ?>
                 </div>
 
             </div>

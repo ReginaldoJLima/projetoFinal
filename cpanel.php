@@ -5,6 +5,8 @@ session_start();
 
 $pg = 'cpanel';
 
+
+
 if (isset($_GET['pg'])) {
     $pg = $_GET['pg'];
 }
@@ -71,47 +73,36 @@ if (isset($_SESSION['usuario'])) {
             include_once "app/painelAdm/paginas/includes/rodape.php";
             break;
 
-
-
-
-
         case 'usuario-editar':
             include_once "app/painelAdm/paginas/includes/header.php";
             include_once "app/painelAdm/paginas/includes/navegacao.php";
 
-            if ($_REQUEST['REQUEST_METHOD'] == 'POST') {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 //Função de atualização de usuário
                 atualizarUsuario();
-            } else {
                 
-                echo 'mostrar usuário pelo id';
-                // $IdUsuarioEditar = isset($_GET['id']);
-                // if ($IdUsuarioEditar) {
+            } else {
 
-                // }
+                $IdUsuarioEditar = isset($_GET['id']);
+
+                if ($IdUsuarioEditar) {
+                    $DadosUsuario = visualizarUsuario($IdUsuarioEditar);
+                    include_once "app/painelAdm/paginas/usuarios-editar.php";
+                } else {
+                    Header('Location: ?pg=usuarios-listar');
+                }
             }
-
-            include_once "app/painelAdm/paginas/usuarios-editar.php";
 
             include_once "app/painelAdm/paginas/includes/rodape.php";
             break;
 
-
-
-
-
-
-        case 'usuario_apagar':
-
+        case 'usuario-apagar':
             $parametros = array(
                 ':id_usuario' => $_GET['id']
             );
 
             $apagarUsuario = new Conexao();
-
-            $apagarUsuario->intervencaoNoBanco('DELETE FROM usuarios 
-            WHERE id_usuario = :id_usuario', $parametros);
-
+            $apagarUsuario->intervencaoNoBanco('DELETE FROM usuarios WHERE  id_usuario = :id_usuario', $parametros);
             Header('Location: ?pg=usuarios-listar');
             break;
 
